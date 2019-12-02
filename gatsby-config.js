@@ -5,7 +5,7 @@ const path = require('path')
 
 // SEO configuration
 const siteTitle = 'Boiler'
-const siteUrl = ''
+const siteUrl = 'https://google.com'
 const siteDescription = 'Boiler'
 const siteKeywords = 'Gatsby, web'
 const siteThemeColor = '#009688'
@@ -45,8 +45,9 @@ module.exports = {
     {
       resolve: 'gatsby-source-prismic',
       options: {
-        repositoryName: process.env.PRICMIC_API,
-        accessToken: process.env.PRICMIC_TOKEN,
+        repositoryName: process.env.PRISMIC_API,
+        accessToken: process.env.PRISMIC_TOKEN,
+        // shouldNormalizeImage: () => false,
       },
     },
     // {

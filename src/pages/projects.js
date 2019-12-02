@@ -1,33 +1,33 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { graphql } from 'gatsby'
+import { graphql, Link } from 'gatsby'
+import uuid from 'node-uuid'
 
 import Layout from '../components/layout'
 
-function IndexPage({ data }) {
-  const project = data.project.edges[0].node
+function ProjectsPage({ data }) {
+  const { edges } = data.projects
   return (
-    <>
-      <Layout>
-        <h1>{project.data.title.text}</h1>
-      </Layout>
-    </>
+    <Layout>
+      <h1>Projects</h1>
+      <div>
+        {edges.map(({ node }) => (
+          <Link to={node.uid} key={uuid()}>
+            <h2>{node.data.title.text}</h2>
+          </Link>
+        ))}
+      </div>
+    </Layout>
   )
 }
 
-IndexPage.propTypes = {
-  data: PropTypes.shape({
-    project: PropTypes.object.isRequired,
-  }).isRequired,
-}
-
-export default IndexPage
+export default ProjectsPage
 
 export const pageQuery = graphql`
-  query IndexQuery {
-    project: allPrismicProjects(limit: 1) {
+  query ProjectsQuery {
+    projects: allPrismicProjects {
       edges {
         node {
+          uid
           data {
             title {
               text
