@@ -1,9 +1,8 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { css } from '@emotion/core'
 import styled from '@emotion/styled'
 import { graphql } from 'gatsby'
-import uuid from 'node-uuid'
 
 const H1 = styled.h1`
   color: ${({ color }) => color};
@@ -19,16 +18,9 @@ function IndexPage({ data }) {
         css={css`
           width: 100%;
         `}
+        alt=""
         src={data.prismicCv.data.image.url}
       />
-      <div>
-        {data.prismicCv.data.body.map(({ primary }) => (
-          <div
-            key={uuid()}
-            dangerouslySetInnerHTML={{ __html: primary.rich_text.html }}
-          />
-        ))}
-      </div>
     </Fragment>
   )
 }
@@ -50,13 +42,6 @@ export const pageQuery = graphql`
         }
         image {
           url
-        }
-        body {
-          primary {
-            rich_text {
-              html
-            }
-          }
         }
       }
     }

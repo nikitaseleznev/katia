@@ -1,6 +1,5 @@
 import React from 'react'
 import { graphql, Link } from 'gatsby'
-import uuid from 'node-uuid'
 
 import Layout from '../components/layout'
 
@@ -11,7 +10,7 @@ function ProjectsPage({ data }) {
       <h1>Projects</h1>
       <div>
         {edges.map(({ node }) => (
-          <Link to={node.uid} key={uuid()}>
+          <Link to={node.uid} key={node.uid}>
             <h2>{node.data.title.text}</h2>
           </Link>
         ))}

@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { css } from '@emotion/core'
 import styled from '@emotion/styled'
@@ -19,6 +19,7 @@ function IndexPage({ data }) {
         css={css`
           width: 100%;
         `}
+        alt=""
         src={data.prismicContacts.data.image.url}
       />
       <div>
@@ -28,7 +29,7 @@ function IndexPage({ data }) {
               {__typename === 'PrismicContactsBodyImage' &&
                 items.map(item => (
                   <div key={uuid()}>
-                    {item.image && <img src={item.image.url} />}
+                    {item.image && <img src={item.image.url} alt="" />}
                   </div>
                 ))}
               {__typename === 'PrismicContactsBodyText' && (

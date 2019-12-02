@@ -30,9 +30,3 @@ exports.createPages = async ({ actions, graphql }) => {
     pageMaker('project', uid)
   })
 }
-
-exports.onCreateBabelConfig = ({ actions }) => {
-  actions.setBabelPlugin({
-    name: 'babel-plugin-tailwind',
-  })
-}

@@ -1,6 +1,5 @@
 import React from 'react'
 import { graphql } from 'gatsby'
-import uuid from 'node-uuid'
 
 import Layout from '../components/layout'
 
@@ -11,10 +10,9 @@ function ProjectPage({ data }) {
       <h1>{project.title.text}</h1>
       <div>
         {project.body.map(block => (
-          <div key={uuid()}>
+          <div key={block.id}>
             {block.__typename === 'PrismicProjectsBodyText' && (
               <div
-                key={uuid()}
                 dangerouslySetInnerHTML={{
                   __html: block.primary.rich_text.html,
                 }}
@@ -44,6 +42,7 @@ export const pageQuery = graphql`
         body {
           __typename
           ... on PrismicProjectsBodyText {
+            id
             primary {
               rich_text {
                 html
@@ -51,6 +50,7 @@ export const pageQuery = graphql`
             }
           }
           ... on PrismicProjectsBodyImage {
+            id
             items {
               image {
                 url
@@ -58,6 +58,7 @@ export const pageQuery = graphql`
             }
           }
           ... on PrismicProjectsBodyVideo {
+            id
             primary {
               src {
                 html

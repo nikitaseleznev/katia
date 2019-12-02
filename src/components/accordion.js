@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'gatsby'
 import { css } from '@emotion/core'
 import uuid from 'node-uuid'
+import tw from 'tailwind.macro'
 
 const Accordion = ({ menu, projects }) => {
   const [currenTag, setCurrentTag] = useState(menu[0].tag)
@@ -24,7 +25,9 @@ const Accordion = ({ menu, projects }) => {
                 .filter(({ node }) => node.tags.find(x => x === tag))
                 .map(({ node }) => (
                   <div key={uuid()}>
-                    <Link activeStyle={{ fontWeight: 'bold' }} to={node.uid}>
+                    <Link
+                    className={`pl-2`}
+                    activeStyle={{ fontWeight: 'bold' }} to={node.uid}>
                       {node.data.title.text}
                     </Link>
                   </div>
