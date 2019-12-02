@@ -1,0 +1,52 @@
+{
+    "Main" : {
+      "title" : {
+        "type" : "StructuredText",
+        "config" : {
+          "single" : "heading1, heading2, heading3, heading4, heading5, heading6",
+          "label" : "Title"
+        }
+      },
+      "description" : {
+        "type" : "Text",
+        "config" : {
+          "label" : "Description"
+        }
+      },
+      "keywords" : {
+        "type" : "Text",
+        "config" : {
+          "label" : "Keywords"
+        }
+      },
+      "image" : {
+        "type" : "Image",
+        "config" : {
+          "constraint" : {
+            "width" : 1920,
+            "height" : 1200
+          },
+          "thumbnails" : [ {
+            "name" : "social",
+            "width" : 1280,
+            "height" : 630
+          } ],
+          "label" : "Image"
+        }
+      },
+      "menu" : {
+        "type" : "Group",
+        "config" : {
+          "fields" : {
+            "tag" : {
+              "type" : "Text",
+              "config" : {
+                "label" : "Tag"
+              }
+            }
+          },
+          "label" : "Menu"
+        }
+      }
+    }
+  }
