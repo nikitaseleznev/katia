@@ -1,43 +1,72 @@
-import React, { useState } from 'react'
-import { Link } from 'gatsby'
-import { css } from '@emotion/core'
+import React, { useState, Fragment, useEffect, memo } from 'react'
 import uuid from 'node-uuid'
-import tw from 'tailwind.macro'
+import { Link } from 'gatsby'
+import { get } from 'lodash'
 
-const Accordion = ({ menu, projects }) => {
-  const [currenTag, setCurrentTag] = useState(menu[0].tag)
+const Accordion = ({ menu, projects, location }) => {
+  const [currenTag, setCurrentTag] = useState(null)
+
+  useEffect(() => {
+    const pathname = location.pathname.replace('/', '').toLowerCase()
+    const tag = menu[0].tag.toLowerCase()
+    const projectTag = get(
+      projects.find(({ node }) => node.uid === pathname),
+      'node.tags.0'
+    )
+
+    if (projectTag && projectTag.toLowerCase() !== currenTag && currenTag !== 'projects') {
+      setCurrentTag(projectTag.toLowerCase())
+    } else if (location.pathname === '/' && pathname !== tag) {
+      setCurrentTag(tag)
+    } else if (
+      menu.find(({ tag }) => tag.toLowerCase() === pathname) &&
+      pathname !== currenTag
+    ) {
+      setCurrentTag(pathname)
+    }
+  }, [location.pathname, currenTag, menu, projects])
 
   return (
     <div>
       {menu.map(({ tag }) => (
-        <div
-          css={css`
-            ${tw('cursor-pointer')}
-            ${tag === currenTag && tw(['font-bold', 'cursor-default'])}
+        <Fragment key={uuid()}>
+          <Link
+            className={`
+            block
+            cursor-pointer
+            opacity-75 hover:opacity-100
+            transition
+            ${tag.toLowerCase() === currenTag && `font-semibold`}
           `}
-          key={uuid()}
-          onClick={() => setCurrentTag(tag)}
-        >
-          {tag}
-          {tag === currenTag && (
+            to={`/${tag.toLowerCase()}`}
+          >
+            {tag}
+          </Link>
+          {tag.toLowerCase() === currenTag && (
             <div>
               {projects
                 .filter(({ node }) => node.tags.find(x => x === tag))
                 .map(({ node }) => (
                   <div key={uuid()}>
                     <Link
-                    className={`pl-2`}
-                    activeStyle={{ fontWeight: 'bold' }} to={node.uid}>
+                      className={`
+                      opacity-75 hover:opacity-100
+                      pl-2
+                      transition
+                    `}
+                      activeStyle={{ fontWeight: 'bold' }}
+                      to={node.uid}
+                    >
                       {node.data.title.text}
                     </Link>
                   </div>
                 ))}
             </div>
           )}
-        </div>
+        </Fragment>
       ))}
     </div>
   )
 }
 
-export default Accordion
+export default memo(Accordion)

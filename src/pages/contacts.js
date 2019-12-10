@@ -9,11 +9,11 @@ const H1 = styled.h1`
   color: ${({ color }) => color};
 `
 
-function IndexPage({ data }) {
+function IndexPage({ data, location }) {
   console.log(data.prismicContacts.data)
 
   return (
-    <Fragment>
+    <>
       <H1>{data.prismicContacts.data.title.text}</H1>
       <img
         css={css`
@@ -41,7 +41,7 @@ function IndexPage({ data }) {
           )
         )}
       </div>
-    </Fragment>
+    </>
   )
 }
 

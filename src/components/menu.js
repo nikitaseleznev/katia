@@ -3,7 +3,7 @@ import { Link, graphql, StaticQuery } from 'gatsby'
 
 import Accordion from './accordion'
 
-function Component({ data }) {
+function Component({ data, location }) {
   const index = data.index.data
   const projects = data.projects.edges
 
@@ -17,7 +17,11 @@ function Component({ data }) {
       <h1 className={`mb-6`}>
         <Link to="/">{index.title.text}</Link>
       </h1>
-      <Accordion menu={index.menu} projects={projects} />
+      <Accordion
+        menu={index.menu}
+        projects={projects}
+        location={location}
+      />
       <div className={`mt-6`}>
         <div>
           <Link to="/cv">CV</Link>

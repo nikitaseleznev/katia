@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { css } from '@emotion/core'
 import styled from '@emotion/styled'
@@ -8,11 +8,11 @@ const H1 = styled.h1`
   color: ${({ color }) => color};
 `
 
-function IndexPage({ data }) {
+function IndexPage({ data, location }) {
   console.log(data.prismicCv.data)
 
   return (
-    <Fragment>
+    <>
       <H1>{data.prismicCv.data.title.text}</H1>
       <img
         css={css`
@@ -21,7 +21,7 @@ function IndexPage({ data }) {
         alt=""
         src={data.prismicCv.data.image.url}
       />
-    </Fragment>
+    </>
   )
 }
 

@@ -1,12 +1,10 @@
 import React from 'react'
 import { graphql } from 'gatsby'
 
-import Layout from '../components/layout'
-
-function ProjectPage({ data }) {
+function ProjectPage({ data, location }) {
   const project = data.project.data
   return (
-    <Layout>
+    <>
       <h1>{project.title.text}</h1>
       <div>
         {project.body.map(block => (
@@ -21,7 +19,7 @@ function ProjectPage({ data }) {
           </div>
         ))}
       </div>
-    </Layout>
+    </>
   )
 }
 

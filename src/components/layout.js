@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { Global, css } from '@emotion/core'
 import tw from 'tailwind.macro'
 
@@ -14,7 +14,7 @@ const globalStyles = css`
   }
 `
 
-function Layout({ children }) {
+function Layout({ children, location }) {
   return (
     <div
       className={`
@@ -23,14 +23,14 @@ function Layout({ children }) {
       `}
     >
       <Global styles={globalStyles} />
-      <div className="w-1/4">
-        <Menu />
+      <div className={`flex-initial`}>
+        <Menu location={location} />
       </div>
-      <div className="p-8 w-3/4">
+      <div className={'flex-1'}>
         {children}
       </div>
     </div>
   )
 }
 
-export default Layout
+export default memo(Layout)

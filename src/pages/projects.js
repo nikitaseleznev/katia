@@ -1,62 +1,42 @@
 import React from 'react'
-import { graphql, Link } from 'gatsby'
+import PropTypes from 'prop-types'
+import { graphql } from 'gatsby'
 
-import Layout from '../components/layout'
+import ProjectsGrid from '../components/project-grid'
 
-function ProjectsPage({ data }) {
-  const { edges } = data.projects
+function ProjectsPage({ data, location }) {
+  const items = data.project.nodes
+
   return (
-    <Layout>
-      <h1>Projects</h1>
-      <div>
-        {edges.map(({ node }) => (
-          <Link to={node.uid} key={node.uid}>
-            <h2>{node.data.title.text}</h2>
-          </Link>
-        ))}
-      </div>
-    </Layout>
+    <>
+      <ProjectsGrid items={items} />
+    </>
   )
+}
+
+ProjectsPage.propTypes = {
+  data: PropTypes.shape({
+    project: PropTypes.object.isRequired,
+  }).isRequired,
 }
 
 export default ProjectsPage
 
 export const pageQuery = graphql`
   query ProjectsQuery {
-    projects: allPrismicProjects {
-      edges {
-        node {
-          uid
-          data {
-            title {
-              text
-            }
-            description
-            keywords
-            image {
-              url
-            }
-            body {
-              __typename
-              ... on PrismicProjectsBodyText {
-                primary {
-                  rich_text {
-                    html
-                  }
-                }
-              }
-              ... on PrismicProjectsBodyImage {
-                items {
-                  image {
-                    url
-                  }
-                }
-              }
-              ... on PrismicProjectsBodyVideo {
-                primary {
-                  src {
-                    html
-                  }
+    project: allPrismicProjects {
+      nodes {
+        uid
+        data {
+          title {
+            text
+          }
+          image {
+            url
+            localFile {
+              childImageSharp {
+                fluid(maxWidth: 240, quality: 80) {
+                  ...GatsbyImageSharpFluid_withWebp
                 }
               }
             }

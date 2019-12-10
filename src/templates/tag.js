@@ -4,7 +4,7 @@ import { graphql } from 'gatsby'
 
 import ProjectsGrid from '../components/project-grid'
 
-function IndexPage({ data, location }) {
+function TagPage({ data, location }) {
   const items = data.project.nodes
 
   return (
@@ -14,17 +14,17 @@ function IndexPage({ data, location }) {
   )
 }
 
-IndexPage.propTypes = {
+TagPage.propTypes = {
   data: PropTypes.shape({
     project: PropTypes.object.isRequired,
   }).isRequired,
 }
 
-export default IndexPage
+export default TagPage
 
 export const pageQuery = graphql`
-  query IndexQuery {
-    project: allPrismicProjects {
+  query TagQuery($uid: [String]) {
+    project: allPrismicProjects(filter: {tags: {in: $uid}}) {
       nodes {
         uid
         data {

@@ -9,7 +9,7 @@ exports.createPages = async ({ actions, graphql }) => {
       context: {
         uid,
       },
-      path: uid,
+      path: uid.toLowerCase(),
     })
   }
 
@@ -22,6 +22,13 @@ exports.createPages = async ({ actions, graphql }) => {
           }
         }
       }
+      index: prismicIndex {
+        data {
+          menu {
+            tag
+          }
+        }
+      }
     }
   `)
 
@@ -29,4 +36,9 @@ exports.createPages = async ({ actions, graphql }) => {
     const { uid } = node
     pageMaker('project', uid)
   })
+  pages.data.index.data.menu
+    .filter(({ tag }) => tag !== 'Projects')
+    .forEach(({ tag }) => {
+      pageMaker('tag', tag)
+    })
 }

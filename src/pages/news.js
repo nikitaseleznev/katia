@@ -3,24 +3,22 @@ import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 import { graphql } from 'gatsby'
 
-import Layout from '../components/layout'
-
 const H1 = styled.h1`
   color: ${({ color }) => color};
 `
 
-function NewsPage({ data }) {
+function NewsPage({ data, location }) {
   console.log(data.allPrismicNews.nodes)
 
   return (
-    <Layout>
+    <>
       <H1>News</H1>
       <div>
         {data.allPrismicNews.nodes.map(({ data }) => (
           <div>{data.title.text}</div>
         ))}
       </div>
-    </Layout>
+    </>
   )
 }
 
