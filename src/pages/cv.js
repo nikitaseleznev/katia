@@ -1,26 +1,65 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import uuid from 'node-uuid'
 import { css } from '@emotion/core'
-import styled from '@emotion/styled'
 import { graphql } from 'gatsby'
+import { get } from 'lodash'
 
-const H1 = styled.h1`
-  color: ${({ color }) => color};
-`
+import Img from '../components/img'
 
-function IndexPage({ data, location }) {
-  console.log(data.prismicCv.data)
+function IndexPage({ data }) {
+  const cv = data.prismicCv.data
 
   return (
     <>
-      <H1>{data.prismicCv.data.title.text}</H1>
-      <img
-        css={css`
-          width: 100%;
+      <h1
+        className={`
+          font-semibold
+          my-8
+          text-2xl
         `}
-        alt=""
-        src={data.prismicCv.data.image.url}
-      />
+      >
+        {cv.title.text}
+      </h1>
+      <div
+        className={`w-full`}
+        css={css`
+          height: 64vh;
+        `}
+      >
+        <Img
+          className={`h-full`}
+          css={css`
+            & img {
+              object-fit: contain !important;
+              object-position: left center !important;
+            }
+          `}
+          src={cv.image}
+        />
+      </div>
+      {cv.body.map(({ __typename, primary }) => {
+        if (__typename === 'PrismicCvBodyText') {
+          const html = get(primary, 'rich_text.html')
+          if (!html) return null
+
+          return (
+            <div
+              className={`
+                leading-relaxed
+                max-w-xl
+                my-8
+              `}
+              key={uuid()}
+              dangerouslySetInnerHTML={{
+                __html: html,
+              }}
+            />
+          )
+        }
+
+        return null
+      })}
     </>
   )
 }
@@ -42,6 +81,23 @@ export const pageQuery = graphql`
         }
         image {
           url
+          localFile {
+            childImageSharp {
+              fluid(maxWidth: 1920, quality: 80) {
+                ...GatsbyImageSharpFluid_withWebp
+              }
+            }
+          }
+        }
+        body {
+          __typename
+          ... on PrismicCvBodyText {
+            primary {
+              rich_text {
+                html
+              }
+            }
+          }
         }
       }
     }

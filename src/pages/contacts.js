@@ -1,45 +1,70 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { css } from '@emotion/core'
-import styled from '@emotion/styled'
 import { graphql } from 'gatsby'
 import uuid from 'node-uuid'
+import { get } from 'lodash'
 
-const H1 = styled.h1`
-  color: ${({ color }) => color};
-`
+import Img from '../components/img'
+import Slider from '../components/slider'
 
-function IndexPage({ data, location }) {
-  console.log(data.prismicContacts.data)
+function IndexPage({ data }) {
+  const contact = data.prismicContacts.data
 
   return (
     <>
-      <H1>{data.prismicContacts.data.title.text}</H1>
-      <img
-        css={css`
-          width: 100%;
+      <h1
+        className={`
+          font-semibold
+          my-8
+          text-2xl
         `}
-        alt=""
-        src={data.prismicContacts.data.image.url}
-      />
+      >
+        {contact.title.text}
+      </h1>
+      <div
+        className={`w-full`}
+        css={css`
+          height: 64vh;
+        `}
+      >
+        <Img
+          className={`h-full`}
+          css={css`
+            & img {
+              object-fit: contain !important;
+              object-position: left center !important;
+            }
+          `}
+          src={contact.image}
+        />
+      </div>
       <div>
-        {data.prismicContacts.data.body.map(
-          ({ __typename, items, primary }) => (
-            <Fragment key={uuid()}>
-              {__typename === 'PrismicContactsBodyImage' &&
-                items.map(item => (
-                  <div key={uuid()}>
-                    {item.image && <img src={item.image.url} alt="" />}
-                  </div>
-                ))}
-              {__typename === 'PrismicContactsBodyText' && (
-                <div
-                  dangerouslySetInnerHTML={{ __html: primary.rich_text.html }}
-                />
-              )}
-            </Fragment>
+      {contact.body.map(({ __typename, primary, items }) => {
+        if (__typename === 'PrismicContactsBodyText') {
+          const html = get(primary, 'rich_text.html')
+          if (!html) return null
+
+          return (
+            <div
+              className={`
+                leading-relaxed
+                max-w-xl
+                my-8
+              `}
+              key={uuid()}
+              dangerouslySetInnerHTML={{
+                __html: html,
+              }}
+            />
           )
-        )}
+        }
+        if (__typename === 'PrismicContactsBodyImage') {
+          return <Slider key={uuid()} items={items} />
+        }
+
+        return null
+      })}
       </div>
     </>
   )
@@ -62,6 +87,13 @@ export const pageQuery = graphql`
         }
         image {
           url
+          localFile {
+            childImageSharp {
+              fluid(maxWidth: 1920, quality: 80) {
+                ...GatsbyImageSharpFluid_withWebp
+              }
+            }
+          }
         }
         body {
           __typename
@@ -76,6 +108,13 @@ export const pageQuery = graphql`
             items {
               image {
                 url
+                localFile {
+                  childImageSharp {
+                    fluid(maxWidth: 1920, quality: 80) {
+                      ...GatsbyImageSharpFluid_withWebp
+                    }
+                  }
+                }
               }
             }
           }

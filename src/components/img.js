@@ -1,9 +1,6 @@
 import * as React from 'react'
 import { get } from 'lodash'
 import GatsbyImage from 'gatsby-image'
-import tw from 'tailwind.macro'
-
-const Image = tw('img')`w-full`
 
 function Img({ src, ...props }) {
   const imageSharp = get(src, 'localFile.childImageSharp')
@@ -20,8 +17,24 @@ function Img({ src, ...props }) {
   }
 
   if (url) {
+    const { className, ...rest } = props
     return (
-      <Image src={url} {...props} alt={get(props, 'alt', get(src, 'alt', ''))} loading="lazy" />
+      <div
+        className={`
+          ${className}
+          overflow-hidden 
+          realtive 
+          w-full
+        `}
+        {...rest}
+      >
+        <img
+          className={`absolute inset-0 h-full w-full`}
+          src={url}
+          alt={get(props, 'alt', get(src, 'alt', ''))}
+          loading="lazy"
+        />
+      </div>
     )
   }
 

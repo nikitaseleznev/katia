@@ -1,24 +1,42 @@
 import React from 'react'
 import { graphql } from 'gatsby'
+import { css } from '@emotion/core'
 
-function ProjectPage({ data, location }) {
+import Img from '../components/img'
+import ProjectBody from '../components/project-body'
+
+function ProjectPage({ data }) {
   const project = data.project.data
+
   return (
     <>
-      <h1>{project.title.text}</h1>
-      <div>
-        {project.body.map(block => (
-          <div key={block.id}>
-            {block.__typename === 'PrismicProjectsBodyText' && (
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: block.primary.rich_text.html,
-                }}
-              />
-            )}
-          </div>
-        ))}
+      <div
+        className={`w-full`}
+        css={css`
+          height: 64vh;
+        `}
+      >
+        <Img
+          className={`h-full`}
+          css={css`
+            & img {
+              object-fit: contain !important;
+              object-position: left center !important;
+            }
+          `}
+          src={project.image}
+        />
       </div>
+      <h1
+        className={`
+          font-semibold
+          my-8
+          text-2xl
+        `}
+      >
+        {project.title.text}
+      </h1>
+      <ProjectBody body={project.body} />
     </>
   )
 }
@@ -36,6 +54,13 @@ export const pageQuery = graphql`
         keywords
         image {
           url
+          localFile {
+            childImageSharp {
+              fluid(maxWidth: 1920, quality: 80) {
+                ...GatsbyImageSharpFluid_withWebp
+              }
+            }
+          }
         }
         body {
           __typename
@@ -52,6 +77,13 @@ export const pageQuery = graphql`
             items {
               image {
                 url
+                localFile {
+                  childImageSharp {
+                    fluid(maxWidth: 1920, quality: 80) {
+                      ...GatsbyImageSharpFluid_withWebp
+                    }
+                  }
+                }
               }
             }
           }

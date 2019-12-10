@@ -12,7 +12,6 @@ function ProjectGrid({ items }) {
       className={`
         flex flex-row flex-wrap
         items-start justify-start
-        p-8
         w-full
       `}
     >

@@ -26,7 +26,7 @@ function Layout({ children, location }) {
       <div className={`flex-initial`}>
         <Menu location={location} />
       </div>
-      <div className={'flex-1'}>
+      <div className={`flex-1 p-8`}>
         {children}
       </div>
     </div>
