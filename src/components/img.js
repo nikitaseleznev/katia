@@ -23,7 +23,7 @@ function Img({ src, ...props }) {
         className={`
           ${className}
           overflow-hidden 
-          realtive 
+          relative 
           w-full
         `}
         {...rest}

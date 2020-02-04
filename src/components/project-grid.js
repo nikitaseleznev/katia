@@ -33,7 +33,7 @@ function ProjectGrid({ items }) {
           >
             <Img
               alt={item.data.title.text}
-              className={`w-full`}
+              className={`w-full pb-2/3`}
               src={item.data.image}
             />
           </Link>

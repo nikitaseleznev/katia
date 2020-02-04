@@ -14,7 +14,11 @@ const Accordion = ({ menu, projects, location }) => {
       'node.tags.0'
     )
 
-    if (projectTag && projectTag.toLowerCase() !== currenTag && currenTag !== 'projects') {
+    if (
+      projectTag &&
+      projectTag.toLowerCase() !== currenTag &&
+      currenTag !== 'projects'
+    ) {
       setCurrentTag(projectTag.toLowerCase())
     } else if (location.pathname === '/' && pathname !== tag) {
       setCurrentTag(tag)
@@ -27,17 +31,21 @@ const Accordion = ({ menu, projects, location }) => {
   }, [location.pathname, currenTag, menu, projects])
 
   return (
-    <div>
+    <div
+      className={`
+        max-w-full
+      `}
+    >
       {menu.map(({ tag }) => (
         <Fragment key={uuid()}>
           <Link
             className={`
-            block
-            cursor-pointer
-            opacity-75 hover:opacity-100
-            transition
-            ${tag.toLowerCase() === currenTag && `font-semibold`}
-          `}
+              block
+              cursor-pointer
+              opacity-75 hover:opacity-100
+              transition
+              ${tag.toLowerCase() === currenTag && `font-semibold`}
+            `}
             to={`/${tag.toLowerCase()}`}
           >
             {tag}
@@ -50,10 +58,13 @@ const Accordion = ({ menu, projects, location }) => {
                   <div key={uuid()}>
                     <Link
                       className={`
-                      opacity-75 hover:opacity-100
-                      pl-2
-                      transition
-                    `}
+                        inline-block
+                        max-w-full
+                        opacity-75 hover:opacity-100
+                        pl-2
+                        transition
+                        truncate
+                      `}
                       activeStyle={{ fontWeight: 'bold' }}
                       to={node.uid}
                     >

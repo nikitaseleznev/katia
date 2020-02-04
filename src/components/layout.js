@@ -23,12 +23,15 @@ function Layout({ children, location }) {
       `}
     >
       <Global styles={globalStyles} />
-      <div className={`flex-initial`}>
+      <div
+        className={`
+          flex-initial
+          md:max-w-1/4
+        `}
+      >
         <Menu location={location} />
       </div>
-      <div className={`flex-1 p-8`}>
-        {children}
-      </div>
+      <div className={`flex-1 p-8`}>{children}</div>
     </div>
   )
 }
